@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drone Mapping System - Multidimensional Data</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .controls {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Drone Mapping System - Multidimensional Data</h1>
+
+    <div class="controls">
+        <input type="number" id="lat" placeholder="Latitude" step="0.000001" required>
+        <input type="number" id="long" placeholder="Longitude" step="0.000001" required>
+        <input type="number" id="alt" placeholder="Altitude (meters)" required>
+        <input type="text" id="terrain" placeholder="Terrain Type" required>
+        <input type="text" id="droneId" placeholder="Drone ID" required>
+        <input type="datetime-local" id="timestamp" required>
+        <button onclick="addGeographicalData()">Add Data</button>
+    </div>
+
+    <h2>Geographical Data</h2>
+    <table id="geoDataTable">
+        <thead>
+            <tr>
+                <th>Latitude</th>
+                <th>Longitude</th>
+                <th>Altitude (m)</th>
+                <th>Terrain Type</th>
+                <th>Drone ID</th>
+                <th>Timestamp</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Geographical data will be added here -->
+        </tbody>
+    </table>
+
+    <h2>Data Analysis</h2>
+    <input type="number" id="regionLat" placeholder="Region Latitude" step="0.000001" required>
+    <input type="number" id="regionLong" placeholder="Region Longitude" step="0.000001" required>
+    <input type="number" id="regionRadius" placeholder="Region Radius (km)" required>
+    <button onclick="analyzeRegion()">Analyze Region</button>
+    <div id="analysisResults"></div>
+
+    <script>
+        // Multidimensional array to represent geographical data
+        const geoData = [];
+
+        // Function to add geographical data
+        function addGeographicalData() {
+            const lat = parseFloat(document.getElementById('lat').value);
+            const long = parseFloat(document.getElementById('long').value);
+            const alt = parseFloat(document.getElementById('alt').value);
+            const terrain = document.getElementById('terrain').value;
+            const droneId = document.getElementById('droneId').value;
+            const timestamp = document.getElementById('timestamp').value;
+
+            if (isNaN(lat) || isNaN(long) || isNaN(alt) || !terrain || !droneId || !timestamp) {
+                alert('Please enter valid geographical data.');
+                return;
+            }
+
+            // Add to the geographical data array
+            geoData.push([lat, long, alt, terrain, droneId, timestamp]);
+            renderGeoData();
+            clearInputs();
+        }
+
+        // Function to render the geographical data table
+        function renderGeoData() {
+            const tableBody = document.querySelector('#geoDataTable tbody');
+            tableBody.innerHTML = '';
+
+            geoData.forEach(data => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${data[0]}</td>
+                    <td>${data[1]}</td>
+                    <td>${data[2]}</td>
+                    <td>${data[3]}</td>
+                    <td>${data[4]}</td>
+                    <td>${data[5]}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Function to analyze data within a specified region
+        function analyzeRegion() {
+            const regionLat = parseFloat(docum
